@@ -1,5 +1,7 @@
 package com.classsync.booking.exception;
 
-public class TimeConflictException {
-
+public class TimeConflictException extends RuntimeException {
+    public TimeConflictException(String message) {
+        super(message);
+    }
 }
