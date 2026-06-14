@@ -4,7 +4,7 @@
 #   Stage 1 (builder) — compiles and packages the JAR
 #   Stage 2 (runtime) — runs the JAR in a minimal JRE image
 
-FROM eclipse-temurin:17-jdk-alpine AS builder
+FROM eclipse-temurin:21-jdk-alpine AS builder
 
 
 WORKDIR /app
@@ -38,14 +38,14 @@ RUN ./mvnw package -DskipTests -B
 
 # STAGE 2: RUNTIME 
 # eclipse-temurin:17-jre-alpine → JRE only 
-FROM eclipse-temurin:17-jre-alpine AS runtime
+FROM eclipse-temurin:21-jre-alpine AS runtime
 
 # Security: run as non-root user
 # Never run application as root inside a container.
 # If the container is compromised, a non-root user limits damage.
 # -r → system user (no login shell)
 # -g → create group with same name
-RUN addgroup -r classsync && adduser -r -g classsync classsync
+RUN addgroup -S classsync && adduser -S classsync -G classsync
 
 # Set working directory
 WORKDIR /app
