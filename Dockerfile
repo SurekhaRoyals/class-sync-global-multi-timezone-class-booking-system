@@ -101,4 +101,4 @@ HEALTHCHECK --interval=30s \
 # exec form: process runs directly (PID 1) — receives OS signals correctly.
 # shell form: process runs under /bin/sh -c — signals may not propagate,
 #             causing container to not shut down cleanly on SIGTERM.
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["java $JAVA_OPTS -jar app.jar"]
