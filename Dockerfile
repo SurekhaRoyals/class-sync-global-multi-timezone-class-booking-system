@@ -12,7 +12,6 @@ WORKDIR /app
 
 # Copying pom.xml and mvnw BEFORE source code is a Docker
 # layer caching optimisation.
-.
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
