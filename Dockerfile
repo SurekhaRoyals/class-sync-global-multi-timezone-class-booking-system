@@ -30,7 +30,8 @@ COPY src ./src
 
 # Build the JAR 
 # package → compiles + runs tests (skipped) + creates JAR
-RUN ./mvnw package -DskipTests -B
+# RUN ./mvnw package -DskipTests -B
+RUN ./mvnw package -DskipTests -B && ls -la target
 
 # The JAR is created at:
 # /app/target/global-class-booking-1.0.0.jar
@@ -53,7 +54,7 @@ WORKDIR /app
 # Copy only the JAR from builder stage
 # Nothing else from builder is copied — no source, no Maven,
 # no .class files, no test resources. Clean runtime image.
-COPY --from=builder /app/target/global-class-booking-1.0.0.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
 # Give ownership of the app directory to non-root user
 RUN chown -R classsync:classsync /app
@@ -101,4 +102,4 @@ HEALTHCHECK --interval=30s \
 # exec form: process runs directly (PID 1) — receives OS signals correctly.
 # shell form: process runs under /bin/sh -c — signals may not propagate,
 #             causing container to not shut down cleanly on SIGTERM.
-ENTRYPOINT ["java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
