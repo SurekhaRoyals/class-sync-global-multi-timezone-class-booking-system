@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL) // Value that indicates that only properties with non-null values are to be included.
 public class ApiResponse<T> {
 
     private boolean success;

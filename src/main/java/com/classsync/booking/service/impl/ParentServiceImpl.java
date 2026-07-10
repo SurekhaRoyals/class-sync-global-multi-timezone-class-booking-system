@@ -24,6 +24,7 @@ import com.classsync.booking.repository.UserRepository;
 import com.classsync.booking.service.ParentService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -91,7 +92,7 @@ public class ParentServiceImpl implements ParentService {
                 "Offering '" + offering.getTitle() + "' has no sessions yet. " +
                 "Please wait for the teacher to add sessions.");
         }
-
+//         fast duplicate check before acquiring the lock
          boolean alreadyBooked = bookingRepository
                 .existsByOfferingIdAndParentIdAndStatus(
                         offering.getId(), parent.getId(), Booking.Status.CONFIRMED);
@@ -100,10 +101,12 @@ public class ParentServiceImpl implements ParentService {
             throw new BusinessException(
                 "You have already booked offering '" + offering.getTitle());
         }
+        
+		/* Optional<Booking> booking = */ bookingRepository.findByOfferingIdAndParentIdWithLock(
+                offering.getId(), parent.getId());
 
         List<Session> conflicts = sessionRepository.findConflictingSessions(
                 parent.getId(), offering.getId());
-
         if (!conflicts.isEmpty()) {
             String conflictDetails = conflicts.stream()
                     .map(s -> String.format("Session on %s (offering id: %d)",

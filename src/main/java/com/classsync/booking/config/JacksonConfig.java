@@ -1,5 +1,6 @@
 package com.classsync.booking.config;
 
+
 import com.classsync.booking.ClassSyncGlobalMultiTimezoneClassBookingSystemApplication;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.DeserializationFeature;

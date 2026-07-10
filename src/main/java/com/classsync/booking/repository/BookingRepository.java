@@ -17,14 +17,19 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT b FROM Booking b WHERE b.offering.id = :offeringId AND b.parent.id = :parentId")
+    @Query("SELECT b FROM Booking b "
+    		+ "WHERE b.offering.id = :offeringId "
+    		+ "AND b.parent.id = :parentId")
     Optional<Booking> findByOfferingIdAndParentIdWithLock(
             @Param("offeringId") Long offeringId,
             @Param("parentId") Long parentId);
 
+    
+    
     boolean existsByOfferingIdAndParentIdAndStatus(
             Long offeringId, Long parentId, Booking.Status status);
 
+  
     @Query("""
         SELECT b FROM Booking b
         JOIN FETCH b.offering o
